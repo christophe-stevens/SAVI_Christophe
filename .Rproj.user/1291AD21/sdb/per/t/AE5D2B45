@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "function() { \n  R6Class(\"scenario.weibull\",\n          inherit = Scenario,\n          public = list(\n            \n            initialize = function(){\n              \n              # Distribution parameters\n              timetoEvent <- ScenarioParameter$new(\"Time-to-event\", Support$new(Domain$new(0, +Inf), \"continuous\"))\n              rate <- ScenarioParameter$new(\"Shape parameter\", Support$new(Domain$new(0, +Inf), \"continuous\"))\n              \n              descriptionLatex <- \"\n              This scenario simulates a time to an event: \\\\(Z_T\\\\) given a time to event in the PsaSample \\\\(T\\\\) and a specified shape parameter\\\\(k\\\\). </br>\n              The scale parameter of the likelihood \\\\(\\\\lambda \\\\) is derived by using the observed time-to-event as the expectation of a weibull distribution:\n              \n              \\\\[\n              \\\\lambda = \\\\dfrac{T}{\\\\Gamma(1+\\\\dfrac{1}{k})}\n              ]\\\\\n              Obtaining a new sample is now\n              \\\\[\n              Z_T \\\\sim weibul(\\\\lambda, k)\n              \\\\]\"\n              \n              super$initialize(\"scenario.weibull\",\"Time to Event (weibull with known shape)\", ScenarioParameterList$new(list(timetoEvent, rate)),descriptionLatex)\n            },\n            simulate = function(simSize, size, cache, reps){\n              parTimeToEvent <- private$paramList$getValueOfParameterWithName(\"Time-to-event\",simSize, cache, reps)\n              parShape <- private$paramList$getValueOfParameterWithName(\"Shape parameter\",simSize, cache, reps)\n              \n              parScale <- parTimeToEvent / gamma(1+1/parShape)\n              \n              sims <- apply(data.frame(shape=parShape, scale=parScale),1, FUN =function(x) median(rweibull(size, x[1] , x[2] )))\n              \n              simulated  <- matrix(ncol=1,nrow=simSize * reps)\n              simulated[,1] <- sims\n              \n              return(simulated)\n              \n            }))$new()\n}",
+    "created" : 1523048868836.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1839777829",
+    "id" : "AE5D2B45",
+    "lastKnownWriteTime" : 1523049048,
+    "last_content_update" : 1523049048964,
+    "path" : "C:/R_SAVI/riskTab_version/EVSI/scenarios/weibull1.R",
+    "project_path" : "EVSI/scenarios/weibull1.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "ScenarioList <- R6Class(\"scenarioList\", \n                        public = list(\n                          initialize = function(){\n                            dat.files  <- list.files(path=\"./EVSI/scenarios/\",\n                                                     recursive=T,\n                                                     full.names=T)\n                            sapply(dat.files, FUN = function(x){\n                              fn <- dget(x)\n                              private$add(fn())\n                            })\n                           \n                          },\n                          addScenario = function(scenario){\n                            private$add(scenario)\n                          },\n                          getScenariosNames = function(){\n                            return(unlist(lapply(private$scenariosList, FUN =function(x) x$getName())))\n                          },\n                          getScenariosFriendlyNames = function(){\n                            return(unlist(lapply(private$scenariosList, FUN =function(x) x$getFriendlyName())))\n                          },\n                          getScenarioAt = function(index){\n                            return(private$scenariosList[[index]])\n                          },\n                          getScenarioWithName = function(name){\n                            return(self$getScenarioAt(which(self$getScenariosNames()==name)))\n                          },\n                          getScenarioWithFriendlyName = function(name){\n                            return(self$getScenarioAt(which(self$getScenariosFriendlyNames()==name)))\n                          }\n                        ),\n                        private = list(\n                          scenariosList = list(),\n                          add = function(dist){\n                            private$scenariosList[[ length(private$scenariosList) + 1]] <- dist\n                          }\n                        ))\n",
+    "created" : 1522957181635.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2149180439",
+    "id" : "CEDF168",
+    "lastKnownWriteTime" : 1519259564,
+    "last_content_update" : 1519259564,
+    "path" : "C:/R_SAVI/riskTab_version/EVSI/scenarioList.R",
+    "project_path" : "EVSI/scenarioList.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
