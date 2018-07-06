@@ -36,5 +36,7 @@ function() {
               
               return(simulated)
               
+            },getSimulatedParameterName = function(){
+              return(list(private$paramList$getParameterWithName("Time-to-event")$getValue()$getDist()))
             }))$new()
 }

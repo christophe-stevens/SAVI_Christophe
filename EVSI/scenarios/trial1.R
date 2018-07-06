@@ -39,5 +39,8 @@ function() {
                                
                                return(simulated)
                                
+                             },getSimulatedParameterName = function(){
+                               return(list(private$paramList$getParameterWithName("probability arm 1")$getValue()$getDist(),
+                                           private$paramList$getParameterWithName("probability arm 2")$getValue()$getDist()))
                              }))$new()
 }

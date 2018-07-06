@@ -1246,7 +1246,6 @@ shinyServer(
     ################  
 
     # This function gets the parameter names
-    # The outputs are the checkboxes lists
     observe({     
       x <- input$parameterFile
       y <- input$loadSession
@@ -1331,6 +1330,9 @@ shinyServer(
             # Generate sample size vector
             nsample <- round(seq(from = evsi.size.start, to = evsi.size.end, length.out = evsi.size.step))
             
+            # Calculate EVPI for scenario
+            evpi.results <- cache$scenarioController$calculateEVPI(session, cache, input, evsi.replications)
+
             # Calculate EVSI for scenario 
             evsi.results <- cache$scenarioController$calculateEVSI(session, cache, input, nsample, evsi.replications)
             
@@ -1358,9 +1360,9 @@ shinyServer(
                 title = "EVSI (£)",
                 titlefont = f
               )
-              plot_ly(x = evsi.results[, "Sample Size"], y = evsi.results[, "EVSI"], type = 'scatter', mode = 'markers+lines') %>%
-                layout(
-                  xaxis=x,yaxis=y)
+              plot_ly(x = evsi.results[, "Sample Size"], type = 'scatter',y = evsi.results[, "EVSI"],name="EVSI", mode = 'markers+lines') %>% 
+                add_trace(y = rep(evpi.results$evsi,length(evsi.results[, "EVSI"]))  , name = 'EVPPI',mode = 'lines') %>%
+                layout(xaxis=x,yaxis=y)
             })
          },
           # In case of error, display an error message
@@ -1369,6 +1371,8 @@ shinyServer(
               cache$scenarioController$errorMsg$text <- "Not enough distinct generated values. (try to increase the starting sample size)"
             }else if(grepl("cerr:", e$message)){
               cache$scenarioController$errorMsg$text <- gsub("cerr:", "", e$message)
+            }else if (grepl("Error in mvrnorm: 'Sigma' is not positive definite", e$message)){
+              cache$scenarioController$errorMsg$text <- gsub("cerr:", "", "GP covariance matrix is not positive definite. Try increasing sample size(s)")
             }else{
               cache$scenarioController$errorMsg$text <- e$message #"Unknwon warning"
             }

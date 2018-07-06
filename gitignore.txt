@@ -1,0 +1,4 @@
+riskTab_version.Rproj
+.Rproj.user
+.Rhistory
+.RData

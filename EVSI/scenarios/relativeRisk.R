@@ -54,5 +54,8 @@ function() {
                                       simulated[,1]<-simRr
                                       return(simulated)
                                       
+                                    },getSimulatedParameterName = function(){
+                                      return(list(private$paramList$getParameterWithName("probability Treatment")$getValue()$getDist(),
+                                                  private$paramList$getParameterWithName("probability Control")$getValue()$getDist()))
                                     }))$new()
 }

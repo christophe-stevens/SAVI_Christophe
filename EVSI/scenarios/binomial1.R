@@ -24,6 +24,9 @@ function() {
                                   simulated  <- matrix(ncol=1,nrow=simSize * reps )
                                   simulated[,1]<-rbinom(simSize * reps, size, parsProb) / size
                                   return(simulated)
+                                },
+                                getSimulatedParameterName = function(){
+                                  return(list(private$paramList$getParameterWithName("probability")$getValue()$getDist()))
                                 }))$new()
 }
 

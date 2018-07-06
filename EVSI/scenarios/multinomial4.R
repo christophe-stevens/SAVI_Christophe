@@ -34,5 +34,10 @@ function() {
                                      
                                      return(simulated)
                                      
+                                   },getSimulatedParameterName = function(){
+                                     return(list(private$paramList$getParameterWithName("state 1")$getValue()$getDist(),
+                                                 private$paramList$getParameterWithName("state 2")$getValue()$getDist(),
+                                                 private$paramList$getParameterWithName("state 3")$getValue()$getDist(),
+                                                 private$paramList$getParameterWithName("state 4")$getValue()$getDist()))
                                    }))$new()
 }

@@ -31,5 +31,8 @@ function() {
                                     
                                     return(simulated)
                                     
+                                  },
+                                  getSimulatedParameterName = function(){
+                                    return(list(private$paramList$getParameterWithName("Inverse logit of mean parameter")$getValue()$getDist()))
                                   }))$new()
 }

@@ -26,6 +26,39 @@ ScenarioController  <- R6Class("scenarioController", public= list(
                                                   removeUI(selector = paste("#",private$scenario$getDomId(), sep=""))
                                                   private$scenario <- NULL
                                                 },
+                                                calculateEVPI = function(session, cache, input, replications){
+                                                  cat("CALCULATE EVPI")
+                                                  eVPIParametersList <- private$scenario$getSimulatedParameterName()
+                                                  
+                                                  lambda <- input$lambdaOverall # re-run if labmda changes
+                                                  inb   <- createInb(cache$costs, cache$effects, lambda)
+                                                  inb <- inb[rep(seq_len(dim(inb)[1]), each=replications),]
+                                                  
+                                                  N <- cache$psaSampleList$getMinRowCount() 
+                                                  
+                                                  progress <- shiny::Progress$new(session, min = 1, max = 1)
+                                                  on.exit(progress$close())
+                                                  progress$set(message = 'Calculation in progress',
+                                                               detail = 'Please wait...')
+                                                  
+                                                  SimulatedMatrix <- matrix(ncol=length(eVPIParametersList),byrow=F, unlist(lapply(eVPIParametersList, FUN = function(x){ cache$psaSampleList$getPsaSampleWithName(x)$getData() })))
+                                                  SimulatedMatrix <- SimulatedMatrix[rep(seq_len(dim(SimulatedMatrix)[1]), each=replications),]
+
+                                                  print(str(SimulatedMatrix))
+                                                  SimulatedData  <- as.data.frame(SimulatedMatrix )
+                                                  colnames(SimulatedData ) <- LETTERS[1:dim(SimulatedData)[2]]
+
+                                                  if(dim(SimulatedData)[2]<=4){
+                                                    results <- private$calculateEVSIGAM(inb,SimulatedData, replications, N)
+                                                  }else{
+                                                    # use GP
+                                                    if(replications>1)
+                                                      stop("cerr: When more than 4 parameters are used, replications cannot be used. (due to matrix size)")
+                                                    results <- private$calculateEVSIGP(inb,SimulatedData, replications, N, session)
+                                                  }
+                                                 
+                                                  return(results)
+                                                },
                                                 calculateEVSI = function(session, cache, input, nsample, replications){
                                                    lambda <- input$lambdaOverall # re-run if labmda changes
                                                    inb   <- createInb(cache$costs, cache$effects, lambda)
@@ -66,6 +99,7 @@ ScenarioController  <- R6Class("scenarioController", public= list(
                                                       progress$set(curr.n)
                                                       
                                                    }
+                                                   
                                                    return(output.evsi.by.sample.size)
                                                  }),
                                 private = list( scenario = NULL, 

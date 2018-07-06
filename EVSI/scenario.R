@@ -15,6 +15,9 @@ Scenario <- R6Class("scenario",  public = list( initialize = function(name, frie
                                                         simulate = function(simSize, size, cache, reps){
                                                                         cat("not implemented in Super class!")
                                                         },
+                                                        getSimulatedParameterName = function(){
+                                                                        cat("not implemented in Super class!")
+                                                        }, 
                                                         getName = function(){
                                                                         return(private$name)
                                                         },

@@ -17,10 +17,10 @@ PsaSampleList <- R6Class("psaSampleList", public = list(
                     getPsaSampleNames= function(){
                       return(unlist(lapply(private$parameters, FUN = function(x) x$getName())))
                     },
-                    getPsaSampleAtIndex= function(index){
+                    getPsaSampleAtIndex = function(index){
                       return(private$parameters[[index]])
                     },
-                    getPsaSampleWithName= function(name){
+                    getPsaSampleWithName = function(name){
                       return(self$getPsaSampleAtIndex(which(self$getPsaSampleNames()==name)))
                     },
                     getPsaSampleMatchingParameter= function(param){
