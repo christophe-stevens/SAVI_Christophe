@@ -1363,7 +1363,7 @@ shinyServer(
               evppi <- rep(evpi.results$evsi,length(evsi.results[, "EVSI"]))
               textHoverEVPPI = paste("EVPPI: £",round(evppi,2),sep="")
               
-              textEVSI <-   paste("EVSI for n=",evsi.results[, "Sample Size"]," is £",round(evsi.results[, "EVSI"],2),sep="")
+              textEVSI <-   paste("EVSI for n=",evsi.results[, "Sample Size"]," is £",round(evsi.results[, "EVSI"],2),"\n(SE: £", round(evsi.results[, "SE"],2),")",sep="")
               
               plot_ly(x = evsi.results[, "Sample Size"], type = 'scatter', y = evsi.results[, "EVSI"], text=textEVSI, hoverinfo="text", 
                       name="EVSI", mode = 'markers+lines') %>% 
