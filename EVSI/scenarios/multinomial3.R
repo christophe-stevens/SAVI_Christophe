@@ -32,9 +32,15 @@ function() {
                                      
                                      return(simulated)
                                      
-                                   },getSimulatedParameterName = function(){
-                                     return(list(private$paramList$getParameterWithName("state 1")$getValue()$getDist(),
-                                                 private$paramList$getParameterWithName("state 2")$getValue()$getDist(),
-                                                 private$paramList$getParameterWithName("state 3")$getValue()$getDist()))
+                                   },getSimulatedParameter = function(cache){
+                                     
+                                     parsprob1 <- cache$psaSampleList$getPsaSampleWithName(private$paramList$getParameterWithName("state 1")$getValue()$getDist())$getData()
+                                     parsprob2 <- cache$psaSampleList$getPsaSampleWithName(private$paramList$getParameterWithName("state 2")$getValue()$getDist())$getData()
+                                     parsprob3 <- cache$psaSampleList$getPsaSampleWithName(private$paramList$getParameterWithName("state 3")$getValue()$getDist())$getData()
+                                     
+                                     SimulatedMatrix <- matrix(ncol=3,nrow=length(parsprob1),byrow=F, c(parsprob1,parsprob2,parsprob3) )
+                                     
+                                     
+                                     return(SimulatedMatrix)
                                    }))$new()
 }

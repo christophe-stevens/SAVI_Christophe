@@ -1366,9 +1366,9 @@ shinyServer(
             })
          },
           # In case of error, display an error message
-          error = function(e){
+         error = function(e){
             if(grepl("has insufficient unique values to support", e$message)){
-              cache$scenarioController$errorMsg$text <- "Not enough distinct generated values. (try to increase the starting sample size)"
+            cache$scenarioController$errorMsg$text <- "Not enough distinct generated values. (try to increase the starting sample size)"
             }else if(grepl("cerr:", e$message)){
               cache$scenarioController$errorMsg$text <- gsub("cerr:", "", e$message)
             }else if (grepl("Error in mvrnorm: 'Sigma' is not positive definite", e$message)){
@@ -1377,7 +1377,7 @@ shinyServer(
               cache$scenarioController$errorMsg$text <- e$message #"Unknwon warning"
             }
             
-          })
+         })
         }
         
       }else{

@@ -36,7 +36,11 @@ function() {
               
               return(simulated)
               
-            },getSimulatedParameterName = function(){
-              return(list(private$paramList$getParameterWithName("Time-to-event")$getValue()$getDist()))
+            },getSimulatedParameter = function(cache){
+              parsprob<- cache$psaSampleList$getPsaSampleWithName(private$paramList$getParameterWithName("Time-to-event")$getValue()$getDist())$getData()
+              
+              SimulatedMatrix <- matrix(ncol=1,byrow=F, c(parsprob) )
+              
+              return(SimulatedMatrix)
             }))$new()
 }

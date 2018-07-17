@@ -39,8 +39,13 @@ function() {
                                
                                return(simulated)
                                
-                             },getSimulatedParameterName = function(){
-                               return(list(private$paramList$getParameterWithName("probability arm 1")$getValue()$getDist(),
-                                           private$paramList$getParameterWithName("probability arm 2")$getValue()$getDist()))
+                             },getSimulatedParameter = function(cache){
+                               
+                               parsprob1 <- cache$psaSampleList$getPsaSampleWithName(private$paramList$getParameterWithName("probability arm 1")$getValue()$getDist())$getData()
+                               parsprob2 <- cache$psaSampleList$getPsaSampleWithName(private$paramList$getParameterWithName("probability arm 2")$getValue()$getDist())$getData()
+                               
+                               SimulatedMatrix <- matrix(ncol=2,nrow=length(parsprob1),byrow=F, c(parsprob1,parsprob2) )
+                               
+                               return(SimulatedMatrix)
                              }))$new()
 }

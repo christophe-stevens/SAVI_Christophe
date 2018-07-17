@@ -29,8 +29,12 @@ function() {
               
               return(simulated)
               
-            },
-            getSimulatedParameterName = function(){
-              return(list(private$paramList$getParameterWithName("Exponentiated Mean parameter")$getValue()$getDist()))
+            },getSimulatedParameter = function(cache){
+              par<- cache$psaSampleList$getPsaSampleWithName(private$paramList$getParameterWithName("Exponentiated Mean parameter")$getValue()$getDist())$getData()
+              
+              SimulatedMatrix <- matrix(ncol=1,byrow=F, c(par) )
+              
+              return(SimulatedMatrix)
             }))$new()
+  
 }

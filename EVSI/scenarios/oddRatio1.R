@@ -53,8 +53,13 @@ function() {
 
                                   return(simulated)
                                   
-                                },getSimulatedParameterName = function(){
-                                  return(list(private$paramList$getParameterWithName("probability Treatment")$getValue()$getDist(),
-                                              private$paramList$getParameterWithName("probability Control")$getValue()$getDist()))
+                                },getSimulatedParameter = function(cache){
+                                  
+                                  parsprobT <- cache$psaSampleList$getPsaSampleWithName(private$paramList$getParameterWithName("probability Treatment")$getValue()$getDist())$getData()
+                                  parsprobC <- cache$psaSampleList$getPsaSampleWithName(private$paramList$getParameterWithName("probability Control")$getValue()$getDist())$getData()
+                                  
+                                  SimulatedMatrix <- matrix(ncol=1,byrow=F, c((parsprobT / (1-parsprobT)) / (parsprobC / (1-parsprobC))) )
+
+                                  return(SimulatedMatrix)
                                 }))$new()
 }

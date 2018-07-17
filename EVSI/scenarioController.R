@@ -28,7 +28,7 @@ ScenarioController  <- R6Class("scenarioController", public= list(
                                                 },
                                                 calculateEVPI = function(session, cache, input, replications){
                                                   cat("CALCULATE EVPI")
-                                                  eVPIParametersList <- private$scenario$getSimulatedParameterName()
+                                                  SimulatedMatrix <-  private$scenario$getSimulatedParameter(cache)
                                                   
                                                   lambda <- input$lambdaOverall # re-run if labmda changes
                                                   inb   <- createInb(cache$costs, cache$effects, lambda)
@@ -41,7 +41,6 @@ ScenarioController  <- R6Class("scenarioController", public= list(
                                                   progress$set(message = 'Calculation in progress',
                                                                detail = 'Please wait...')
                                                   
-                                                  SimulatedMatrix <- matrix(ncol=length(eVPIParametersList),byrow=F, unlist(lapply(eVPIParametersList, FUN = function(x){ cache$psaSampleList$getPsaSampleWithName(x)$getData() })))
                                                   SimulatedMatrix <- SimulatedMatrix[rep(seq_len(dim(SimulatedMatrix)[1]), each=replications),]
 
                                                   print(str(SimulatedMatrix))
