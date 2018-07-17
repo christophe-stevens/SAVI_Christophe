@@ -43,7 +43,6 @@ ScenarioController  <- R6Class("scenarioController", public= list(
                                                   
                                                   SimulatedMatrix <- SimulatedMatrix[rep(seq_len(dim(SimulatedMatrix)[1]), each=replications),]
 
-                                                  print(str(SimulatedMatrix))
                                                   SimulatedData  <- as.data.frame(SimulatedMatrix )
                                                   colnames(SimulatedData ) <- LETTERS[1:dim(SimulatedData)[2]]
 
@@ -160,7 +159,6 @@ ScenarioController  <- R6Class("scenarioController", public= list(
                                                     data <- cbind(dependent, SimulatedData )
                                                     
                                                     f <- update(formula(dependent~.), formula(paste(".~", regression.model)))
-                                                    print(f)
                                                     model <- gam(f, data = data)
                                                     g.hat[[d]] <- model$fitted
                                                     beta.hat[[d]] <- model$coef
@@ -187,7 +185,7 @@ ScenarioController  <- R6Class("scenarioController", public= list(
                                                   rm(tilde.g); gc()
                                                   sampled.evsi <- sampled.perfect.info - sampled.baseline
                                                   SE <- sd(sampled.evsi)
-                                                  print(sampled.evsi)
+
                                                   return(list(evsi= evsi , SE=SE))
                                                   
                                                 },

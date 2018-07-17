@@ -21,8 +21,8 @@ function() {
               parsexpectMeanlog  <- private$paramList$getValueOfParameterWithName("Exponentiated Mean parameter",simSize, cache, reps)
               parsvarianceLognorm <- private$paramList$getValueOfParameterWithName("Population log variance",simSize, cache, reps)
               
-              mu <- parsexpectMeanlog - (parsvarianceLognorm / size)/2
-              simLognorm <- rnorm(simSize * reps, mu , sqrt(parsvarianceLognorm/size) )
+              mu <- log(parsexpectMeanlog) - parsvarianceLognorm/2
+              simLognorm  <- apply(data.frame(lmean=mu, lsd=parsvarianceLognorm),1, FUN =function(x) median(rnorm(size, x[1] , x[2] )))
               
               simulated  <-  matrix(ncol=1,nrow=simSize * reps)
               simulated[,1] <- simLognorm 
@@ -32,7 +32,7 @@ function() {
             },getSimulatedParameter = function(cache){
               par<- cache$psaSampleList$getPsaSampleWithName(private$paramList$getParameterWithName("Exponentiated Mean parameter")$getValue()$getDist())$getData()
               
-              SimulatedMatrix <- matrix(ncol=1,byrow=F, c(par) )
+              SimulatedMatrix <- matrix(ncol=1,byrow=F, c(log(par)) )
               
               return(SimulatedMatrix)
             }))$new()
